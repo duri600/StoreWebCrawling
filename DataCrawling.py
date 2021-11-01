@@ -45,20 +45,29 @@ our_qty_list = PL_csv[our_qty_key]
 our_cost_list = PL_csv[our_cost_key]
 
 for idx in range(url_list.size):
-    pd_cnt, cost, pd_usable = product_qty_crawling(url_list[idx])
+    print("                          ")
     print("#" + name_list[idx])
-    print('재고 : ' + str(pd_cnt))
-    print('현재가격 : ' + str(cost))
-    print('사용여부 : ' + pd_usable)
+    pd_cnt, cost, pd_usable = product_qty_crawling(url_list[idx])
+    # print('재고 : ' + str(pd_cnt))
+    # print('현재가격 : ' + str(cost))
+    # print('사용여부 : ' + pd_usable)
 
     if pd_usable != '사용허용':
-        print(name_list[idx])
+        # print(name_list[idx])
         print("이미지 허용 불가!")
 
     if pd_cnt == 0:
         print("재고 부족")
 
+    # cost_diff = cost - our_cost_list[idx]
+    # if cost_diff != 0:
+    #     print("가격 변동! 수정 필요!")
 
+    qty_diff = pd_cnt - our_qty_list[idx]
+    if qty_diff == 0:
+        print("재고 변화 없음")
+    else:
+        print(pd_cnt, "로 변화 필요!")
 
     # if cost == our_cost_list[idx]:
     #     continue
