@@ -10,8 +10,12 @@ def product_qty_crawling(url):
     html = get(url)
     bsObject = BeautifulSoup(html.content.decode('euc-kr', 'replace'), "html.parser")
 
-    prod_exist = bsObject.select_one('#lEmpty > h3').get_text()
-    if prod_exist == "상품을 찾을 수 없습니다.":
+    # prod_exist = bsObject.select_one('#lEmpty > h3').get_text()
+    # if prod_exist == "상품을 찾을 수 없습니다.":
+    #     return 0, 0, 'None'
+
+    if(bsObject.select_one('#lInfoBody > div.lInfoBody.lInfoRow.lSelected > table > tbody > tr.lInfoQty > td') == None):
+        print("상품 없음")
         return 0, 0, 'None'
 
     cnt = bsObject.select_one('#lInfoBody > div.lInfoBody.lInfoRow.lSelected > table > tbody > tr.lInfoQty > td').get_text()
@@ -29,7 +33,7 @@ def product_qty_crawling(url):
     return cnt, cost, usable
 
 # Start!
-csv_name = 'Product_List.csv'
+csv_name = 'Product_20211101_210226.csv'
 PL_csv = pd.read_csv(csv_name)
 key = '판매자바코드'
 name_key = '상품명'
